@@ -28,12 +28,26 @@
 
     .header-logo {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .header-logo img {
-      max-width: 200px;
+      max-width: 240px;
       height: auto;
+      margin-bottom: 10px;
+    }
+
+    .header-logo h2 {
+      color: var(--primary-color);
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .header-logo p {
+      color: var(--subtitle-color);
+      margin: 5px 0 0 0;
+      font-size: 0.95rem;
     }
 
     .form-card {
@@ -47,7 +61,7 @@
 
     .card-title {
       color: var(--primary-color);
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       margin-top: 0;
       margin-bottom: 6px;
@@ -91,16 +105,21 @@
       color: #444;
     }
 
-    .form-group input, .form-group select {
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
       padding: 10px 12px;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       font-size: 0.95rem;
       outline: none;
+      font-family: inherit;
       transition: border-color 0.2s;
     }
 
-    .form-group input:focus, .form-group select:focus {
+    .form-group input:focus, 
+    .form-group select:focus, 
+    .form-group textarea:focus {
       border-color: var(--primary-color);
     }
 
@@ -138,33 +157,36 @@
 <body>
 
   <div class="container">
+    <!-- Logotipo de la OCV Monterrey guardado en Google Drive -->
     <div class="header-logo">
-      <h2 style="color: var(--primary-color); margin-bottom: 4px;">Formulario Recinto y Gestión de Hospedaje</h2>
+      <img src="https://lh3.googleusercontent.com/d/1Z0YYc00kPgLv_CoJ0ur6EpieCc2kGR83" alt="Monterrey OCV Logo">
+      <h2>Formulario de Gestión de Hospedaje</h2>
+      <p>Oficina de Convenciones y Visitantes de Monterrey</p>
     </div>
 
     <form id="recintoForm" onsubmit="handleFormSubmit(this); return false;">
       
-      <!-- Sección 1: Información del Recinto y Evento -->
+      <!-- Sección 1: Información General -->
       <div class="form-card">
-        <h3 class="card-title">Información General del Evento y Recinto</h3>
+        <h3 class="card-title">Información General del Evento</h3>
         
         <div class="form-group">
-          <label for="nombreEvento">Nombre del Evento</label>
-          <input type="text" id="nombreEvento" name="nombreEvento" required>
+          <label for="nombreEvento">Nombre del evento</label>
+          <input type="text" id="nombreEvento" name="nombreEvento" placeholder="Ej. Congreso Nacional de Turismo" required>
         </div>
 
         <div class="form-group">
-          <label for="nombreOrganizador">Nombre del Organizador</label>
-          <input type="text" id="nombreOrganizador" name="nombreOrganizador" required>
+          <label for="nombreOrganizador">Nombre del organizador</label>
+          <input type="text" id="nombreOrganizador" name="nombreOrganizador" placeholder="Nombre de la empresa u organización" required>
         </div>
 
         <div class="grid-2">
           <div class="form-group">
-            <label for="fechaInicio">Fecha de Inicio</label>
+            <label for="fechaInicio">Fecha de inicio del evento</label>
             <input type="date" id="fechaInicio" name="fechaInicio" required>
           </div>
           <div class="form-group">
-            <label for="fechaTermino">Fecha de Término</label>
+            <label for="fechaTermino">Fecha final del evento</label>
             <input type="date" id="fechaTermino" name="fechaTermino" required>
           </div>
         </div>
@@ -185,14 +207,14 @@
         </div>
       </div>
 
-      <!-- Sección 2: Hospedaje por Bloqueo Cerrado -->
+      <!-- Sección 2: Bloqueo Cerrado -->
       <div class="form-card">
-        <h3 class="card-title">HOSPEDAJE POR BLOQUEO CERRADO</h3>
-        <p class="card-subtitle">(Compartenos la info de las habitaciones que sean reservadas directamente por el organizador)</p>
+        <h3 class="card-title">Hospedaje por Bloqueo Cerrado</h3>
+        <p class="card-subtitle">Compartanos la información de las habitaciones que serán reservadas directamente por el organizador</p>
 
         <div class="grid-2">
           <div class="form-group">
-            <label for="bloqueoTipo">Tipo de Hospedaje</label>
+            <label for="bloqueoTipo">Tipo de hospedaje</label>
             <select id="bloqueoTipo" name="bloqueoTipo" required>
               <option value="">Seleccione...</option>
               <option value="3 estrellas">3 estrellas</option>
@@ -214,7 +236,7 @@
           </div>
           <div class="form-group">
             <label for="bloqueoFechas">Fechas</label>
-            <input type="text" id="bloqueoFechas" name="bloqueoFechas" placeholder="Ej: 15 a 20 de Octubre" required>
+            <input type="text" id="bloqueoFechas" name="bloqueoFechas" placeholder="Ej. 15 a 20 de Octubre" required>
           </div>
           <div class="form-group">
             <label for="bloqueoZona">Zona</label>
@@ -223,14 +245,14 @@
         </div>
       </div>
 
-      <!-- Sección 3: Hospedaje para Participantes - Con Código Promocional -->
+      <!-- Sección 3: Código Promocional -->
       <div class="form-card">
-        <h3 class="card-title">HOSPEDAJE PARA PARTICIPANTES - CON CÓDIGO PROMOCIONAL</h3>
-        <p class="card-subtitle">(Estas habitaciones serían ofrecidas al público en general de su evento)</p>
+        <h3 class="card-title">Hospedaje para Participantes - Con Código Promocional</h3>
+        <p class="card-subtitle">Estas habitaciones serían ofrecidas al público en general de su evento</p>
 
         <div class="grid-2">
           <div class="form-group">
-            <label for="promoTipo">Tipo de Hospedaje</label>
+            <label for="promoTipo">Tipo de hospedaje</label>
             <select id="promoTipo" name="promoTipo" required>
               <option value="">Seleccione...</option>
               <option value="3 estrellas">3 estrellas</option>
@@ -252,12 +274,37 @@
           </div>
           <div class="form-group">
             <label for="promoFechas">Fechas</label>
-            <input type="text" id="promoFechas" name="promoFechas" placeholder="Ej: 15 a 20 de Octubre" required>
+            <input type="text" id="promoFechas" name="promoFechas" placeholder="Ej. 15 a 20 de Octubre" required>
           </div>
           <div class="form-group">
             <label for="promoZona">Zona</label>
             <input type="text" id="promoZona" name="promoZona" value="Monterrey Centro" required>
           </div>
+        </div>
+      </div>
+
+      <!-- Sección 4: Beneficios Eventos a Hoteles -->
+      <div class="form-card">
+        <h3 class="card-title">Beneficios Eventos a Hoteles</h3>
+        <div class="form-group">
+          <label for="beneficioElegido">Seleccione el beneficio:</label>
+          <select id="beneficioElegido" name="beneficioElegido">
+            <option value="">Seleccione una opción...</option>
+            <option value="Tarifa preferencial">Tarifa preferencial</option>
+            <option value="Habitaciones en cortesía">Habitaciones en cortesía</option>
+            <option value="Transportación local">Transportación local</option>
+            <option value="Descuentos en alimentos y bebidas">Descuentos en alimentos y bebidas</option>
+            <option value="Otro / Ninguno">Otro / Ninguno</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Sección 5: Necesidades Especiales -->
+      <div class="form-card">
+        <h3 class="card-title">Necesidades Especiales (opcional)</h3>
+        <div class="form-group">
+          <label for="necesidadesEspeciales">Indique si requiere algún servicio especial</label>
+          <textarea id="necesidadesEspeciales" name="necesidadesEspeciales" rows="3" placeholder="Detalles adicionales..."></textarea>
         </div>
       </div>
 
@@ -275,7 +322,7 @@
       btn.disabled = true;
       btn.innerText = "Enviando...";
       statusDiv.style.color = "#333";
-      statusDiv.innerText = "Procesando respuesta...";
+      statusDiv.innerText = "Enviando información...";
 
       google.script.run
         .withSuccessHandler(function(response) {
@@ -294,7 +341,7 @@
           btn.disabled = false;
           btn.innerText = "Enviar solicitud";
           statusDiv.style.color = "red";
-          statusDiv.innerText = "Error inesperado al enviar.";
+          statusDiv.innerText = "Error al conectar con el servidor.";
         })
         .enviarFormulario(formObject);
     }
