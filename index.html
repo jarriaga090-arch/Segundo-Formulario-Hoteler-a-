@@ -23,6 +23,67 @@
       padding: 20px;
     }
 
+    /* ==========================================
+       ESTILOS DEL EFECTO SPLASH (PANTALLA DE CARGA)
+       ========================================== */
+    #splashScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    #splashScreen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .splash-logo {
+      max-width: 260px;
+      height: auto;
+      margin-bottom: 25px;
+      animation: pulseLogo 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseLogo {
+      0% { transform: scale(0.98); opacity: 0.9; }
+      50% { transform: scale(1.03); opacity: 1; }
+      100% { transform: scale(0.98); opacity: 0.9; }
+    }
+
+    .spinner {
+      width: 42px;
+      height: 42px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .splash-text {
+      margin-top: 15px;
+      font-size: 0.95rem;
+      color: var(--subtitle-color);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* ==========================================
+       ESTILOS DEL FORMULARIO Y TARJETAS
+       ========================================== */
     .container {
       max-width: 750px;
       margin: 0 auto;
@@ -184,8 +245,15 @@
 </head>
 <body>
 
+  <!-- PANTALLA SPLASH DE BIENVENIDA -->
+  <div id="splashScreen">
+    <img src="https://lh3.googleusercontent.com/d/1Z0YYc00kPgLv_CoJ0ur6EpieCc2kGR83" alt="Monterrey OCV Logo" class="splash-logo">
+    <div class="spinner"></div>
+    <div class="splash-text">Cargando Formulario OCV Monterrey...</div>
+  </div>
+
   <div class="container">
-    <!-- Logotipo de la OCV Monterrey -->
+    <!-- Encabezado con Logotipo OCV -->
     <div class="header-logo">
       <img src="https://lh3.googleusercontent.com/d/1Z0YYc00kPgLv_CoJ0ur6EpieCc2kGR83" alt="Monterrey OCV Logo">
       <h2>Formulario de Gestión de Hospedaje</h2>
@@ -262,7 +330,6 @@
           <input type="number" id="bloqueoCantidad" name="bloqueoCantidad" value="5" min="1">
         </div>
 
-        <!-- Calendarios dinámicos para inicio y fin de hospedaje -->
         <div class="grid-2">
           <div class="form-group">
             <label for="bloqueoInicio">Inicio de hospedaje *</label>
@@ -274,7 +341,6 @@
           </div>
         </div>
 
-        <!-- Zona con menú desplegable y campo dinámico "Otro" -->
         <div class="form-group">
           <label for="bloqueoZonaSelect">Zona</label>
           <select id="bloqueoZonaSelect" onchange="toggleZonaOtro('bloqueoZonaSelect', 'bloqueoZonaOtroContainer')">
@@ -316,7 +382,6 @@
           <input type="number" id="promoCantidad" name="promoCantidad" value="5" min="1">
         </div>
 
-        <!-- Calendarios dinámicos para inicio y fin de hospedaje -->
         <div class="grid-2">
           <div class="form-group">
             <label for="promoInicio">Inicio de hospedaje *</label>
@@ -328,7 +393,6 @@
           </div>
         </div>
 
-        <!-- Zona con menú desplegable y campo dinámico "Otro" -->
         <div class="form-group">
           <label for="promoZonaSelect">Zona</label>
           <select id="promoZonaSelect" onchange="toggleZonaOtro('promoZonaSelect', 'promoZonaOtroContainer')">
@@ -356,7 +420,6 @@
             <option value="Descuentos en alimentos y bebidas">Descuentos en alimentos y bebidas</option>
             <option value="Otro / Ninguno">Otro / Ninguno</option>
           </select>
-          <!-- Campo dinámico para escribir beneficio si selecciona "Otro / Ninguno" -->
           <div id="beneficioOtroContainer" class="dynamic-field">
             <input type="text" id="beneficioOtro" placeholder="Escriba el beneficio o detalles adicionales">
           </div>
@@ -381,34 +444,34 @@
   <script>
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwI6D0wKFuVlGih5Zl4o0Np6bdw3sO1LjA-PVHHGfsTl1r_U5BZAZn2nPVMVtS8IDrg/exec";
 
-    // Mostrar/ocultar campo de texto para Zona cuando elijan "Otro"
+    // Ocultar pantalla Splash después de 2.2 segundos
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        const splash = document.getElementById('splashScreen');
+        splash.classList.add('hidden');
+      }, 2200);
+    });
+
+    // Desplegable Zona
     function toggleZonaOtro(selectId, containerId) {
       const selectVal = document.getElementById(selectId).value;
       const container = document.getElementById(containerId);
-      if (selectVal === 'Otro') {
-        container.style.display = 'block';
-      } else {
-        container.style.display = 'none';
-      }
+      container.style.display = (selectVal === 'Otro') ? 'block' : 'none';
     }
 
-    // Mostrar/ocultar campo de texto para Beneficios cuando elijan "Otro / Ninguno"
+    // Desplegable Beneficios
     function toggleBeneficioOtro() {
       const selectVal = document.getElementById('beneficioElegido').value;
       const container = document.getElementById('beneficioOtroContainer');
-      if (selectVal === 'Otro / Ninguno') {
-        container.style.display = 'block';
-      } else {
-        container.style.display = 'none';
-      }
+      container.style.display = (selectVal === 'Otro / Ninguno') ? 'block' : 'none';
     }
 
+    // Enviar datos
     function enviarDatos() {
       const form = document.getElementById('recintoForm');
       const btn = document.getElementById('submitBtn');
       const statusDiv = document.getElementById('statusMessage');
 
-      // Validar campos obligatorios
       const nombreEvento = document.getElementById('nombreEvento').value.trim();
       const nombreOrganizador = document.getElementById('nombreOrganizador').value.trim();
       const fechaInicio = document.getElementById('fechaInicio').value;
@@ -421,7 +484,6 @@
         return;
       }
 
-      // Procesar valores de Zona (si es 'Otro', toma lo que el usuario escribió)
       const bloqueoZonaVal = document.getElementById('bloqueoZonaSelect').value === 'Otro' 
         ? document.getElementById('bloqueoZonaOtro').value.trim() 
         : document.getElementById('bloqueoZonaSelect').value;
@@ -430,14 +492,12 @@
         ? document.getElementById('promoZonaOtro').value.trim() 
         : document.getElementById('promoZonaSelect').value;
 
-      // Procesar valores de Beneficios (si es 'Otro / Ninguno', toma lo escrito)
       let beneficioVal = document.getElementById('beneficioElegido').value;
       if (beneficioVal === 'Otro / Ninguno') {
         const otroDetalle = document.getElementById('beneficioOtro').value.trim();
         beneficioVal = otroDetalle ? "Otro / Ninguno: " + otroDetalle : "Otro / Ninguno";
       }
 
-      // Crear objeto con los datos completos
       const data = {
         nombreEvento: nombreEvento,
         nombreOrganizador: nombreOrganizador,
@@ -483,7 +543,6 @@
         statusDiv.className = 'status-success';
         statusDiv.innerText = "¡Formulario enviado con éxito a gabriela.santillan@ocvmty.com.mx!";
         form.reset();
-        // Ocultar campos dinámicos
         document.getElementById('bloqueoZonaOtroContainer').style.display = 'none';
         document.getElementById('promoZonaOtroContainer').style.display = 'none';
         document.getElementById('beneficioOtroContainer').style.display = 'none';
