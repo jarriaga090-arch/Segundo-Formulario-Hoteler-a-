@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    :root {
+      --primary-color: #f37021;
+      --primary-dark: #d95d12;
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+      --border-color: #e0e0e0;
+      --subtitle-color: #666666;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .header-logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header-logo img {
+      max-width: 200px;
+      height: auto;
+    }
+
+    .form-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 25px 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-color);
+    }
+
+    .card-title {
+      color: var(--primary-color);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 6px;
+    }
+
+    .card-subtitle {
+      color: var(--subtitle-color);
+      font-size: 0.85rem;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    .form-group input, .form-group select {
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--primary-color);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      box-shadow: 0 4px 8px rgba(243, 112, 33, 0.3);
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-submit:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    #statusMessage {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header-logo">
+      <h2 style="color: var(--primary-color); margin-bottom: 4px;">Formulario Recinto y Gestión de Hospedaje</h2>
+    </div>
+
+    <form id="recintoForm" onsubmit="handleFormSubmit(this); return false;">
+      
+      <!-- Sección 1: Información del Recinto y Evento -->
+      <div class="form-card">
+        <h3 class="card-title">Información General del Evento y Recinto</h3>
+        
+        <div class="form-group">
+          <label for="nombreEvento">Nombre del Evento</label>
+          <input type="text" id="nombreEvento" name="nombreEvento" required>
+        </div>
+
+        <div class="form-group">
+          <label for="nombreOrganizador">Nombre del Organizador</label>
+          <input type="text" id="nombreOrganizador" name="nombreOrganizador" required>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="fechaInicio">Fecha de Inicio</label>
+            <input type="date" id="fechaInicio" name="fechaInicio" required>
+          </div>
+          <div class="form-group">
+            <label for="fechaTermino">Fecha de Término</label>
+            <input type="date" id="fechaTermino" name="fechaTermino" required>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="numeroSalas">Número de salas</label>
+            <input type="number" id="numeroSalas" name="numeroSalas" min="0" required>
+          </div>
+          <div class="form-group">
+            <label for="metrosCuadrados">Metros cuadrados</label>
+            <input type="number" id="metrosCuadrados" name="metrosCuadrados" step="0.01" min="0" required>
+          </div>
+          <div class="form-group">
+            <label for="numeroPersonas">Número de personas</label>
+            <input type="number" id="numeroPersonas" name="numeroPersonas" min="0" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 2: Hospedaje por Bloqueo Cerrado -->
+      <div class="form-card">
+        <h3 class="card-title">HOSPEDAJE POR BLOQUEO CERRADO</h3>
+        <p class="card-subtitle">(Compartenos la info de las habitaciones que sean reservadas directamente por el organizador)</p>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="bloqueoTipo">Tipo de Hospedaje</label>
+            <select id="bloqueoTipo" name="bloqueoTipo" required>
+              <option value="">Seleccione...</option>
+              <option value="3 estrellas">3 estrellas</option>
+              <option value="4 estrellas" selected>4 estrellas</option>
+              <option value="5 estrellas">5 estrellas</option>
+              <option value="Boutique">Boutique</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bloqueoTarifa">Tarifa ideal ($)</label>
+            <input type="number" id="bloqueoTarifa" name="bloqueoTarifa" value="6000.00" step="0.01" required>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="bloqueoCantidad">Cantidad de habitaciones</label>
+            <input type="number" id="bloqueoCantidad" name="bloqueoCantidad" value="5" min="1" required>
+          </div>
+          <div class="form-group">
+            <label for="bloqueoFechas">Fechas</label>
+            <input type="text" id="bloqueoFechas" name="bloqueoFechas" placeholder="Ej: 15 a 20 de Octubre" required>
+          </div>
+          <div class="form-group">
+            <label for="bloqueoZona">Zona</label>
+            <input type="text" id="bloqueoZona" name="bloqueoZona" value="Monterrey Centro" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 3: Hospedaje para Participantes - Con Código Promocional -->
+      <div class="form-card">
+        <h3 class="card-title">HOSPEDAJE PARA PARTICIPANTES - CON CÓDIGO PROMOCIONAL</h3>
+        <p class="card-subtitle">(Estas habitaciones serían ofrecidas al público en general de su evento)</p>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="promoTipo">Tipo de Hospedaje</label>
+            <select id="promoTipo" name="promoTipo" required>
+              <option value="">Seleccione...</option>
+              <option value="3 estrellas">3 estrellas</option>
+              <option value="4 estrellas" selected>4 estrellas</option>
+              <option value="5 estrellas">5 estrellas</option>
+              <option value="Boutique">Boutique</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="promoTarifa">Tarifa ideal ($)</label>
+            <input type="number" id="promoTarifa" name="promoTarifa" value="6000.00" step="0.01" required>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="promoCantidad">Cantidad de habitaciones</label>
+            <input type="number" id="promoCantidad" name="promoCantidad" value="5" min="1" required>
+          </div>
+          <div class="form-group">
+            <label for="promoFechas">Fechas</label>
+            <input type="text" id="promoFechas" name="promoFechas" placeholder="Ej: 15 a 20 de Octubre" required>
+          </div>
+          <div class="form-group">
+            <label for="promoZona">Zona</label>
+            <input type="text" id="promoZona" name="promoZona" value="Monterrey Centro" required>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-submit">Enviar solicitud</button>
+    </form>
+
+    <div id="statusMessage"></div>
+  </div>
+
+  <script>
+    function handleFormSubmit(formObject) {
+      const btn = document.getElementById('submitBtn');
+      const statusDiv = document.getElementById('statusMessage');
+      
+      btn.disabled = true;
+      btn.innerText = "Enviando...";
+      statusDiv.style.color = "#333";
+      statusDiv.innerText = "Procesando respuesta...";
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          btn.disabled = false;
+          btn.innerText = "Enviar solicitud";
+          if(response.status === 'SUCCESS') {
+            statusDiv.style.color = "green";
+            statusDiv.innerText = response.message;
+            document.getElementById('recintoForm').reset();
+          } else {
+            statusDiv.style.color = "red";
+            statusDiv.innerText = "Error: " + response.message;
+          }
+        })
+        .withFailureHandler(function(error) {
+          btn.disabled = false;
+          btn.innerText = "Enviar solicitud";
+          statusDiv.style.color = "red";
+          statusDiv.innerText = "Error inesperado al enviar.";
+        })
+        .enviarFormulario(formObject);
+    }
+  </script>
+</body>
+</html>
