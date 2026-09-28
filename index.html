@@ -133,7 +133,7 @@
       font-weight: bold;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
+      transition: background-color 0.2s;
       box-shadow: 0 4px 8px rgba(243, 112, 33, 0.3);
     }
 
@@ -150,43 +150,63 @@
     #statusMessage {
       text-align: center;
       font-weight: bold;
-      margin-top: 15px;
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .status-success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+
+    .status-error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+
+    .status-info {
+      background-color: #e3f2fd;
+      color: #1565c0;
+      border: 1px solid #bbdefb;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Logotipo de la OCV Monterrey guardado en Google Drive -->
     <div class="header-logo">
       <img src="https://lh3.googleusercontent.com/d/1Z0YYc00kPgLv_CoJ0ur6EpieCc2kGR83" alt="Monterrey OCV Logo">
       <h2>Formulario de Gestión de Hospedaje</h2>
       <p>Oficina de Convenciones y Visitantes de Monterrey</p>
     </div>
 
-    <form id="recintoForm" onsubmit="handleFormSubmit(this); return false;">
+    <form id="recintoForm">
       
       <!-- Sección 1: Información General -->
       <div class="form-card">
         <h3 class="card-title">Información General del Evento</h3>
         
         <div class="form-group">
-          <label for="nombreEvento">Nombre del evento</label>
+          <label for="nombreEvento">Nombre del evento *</label>
           <input type="text" id="nombreEvento" name="nombreEvento" placeholder="Ej. Congreso Nacional de Turismo" required>
         </div>
 
         <div class="form-group">
-          <label for="nombreOrganizador">Nombre del organizador</label>
+          <label for="nombreOrganizador">Nombre del organizador *</label>
           <input type="text" id="nombreOrganizador" name="nombreOrganizador" placeholder="Nombre de la empresa u organización" required>
         </div>
 
         <div class="grid-2">
           <div class="form-group">
-            <label for="fechaInicio">Fecha de inicio del evento</label>
+            <label for="fechaInicio">Fecha de inicio del evento *</label>
             <input type="date" id="fechaInicio" name="fechaInicio" required>
           </div>
           <div class="form-group">
-            <label for="fechaTermino">Fecha final del evento</label>
+            <label for="fechaTermino">Fecha final del evento *</label>
             <input type="date" id="fechaTermino" name="fechaTermino" required>
           </div>
         </div>
@@ -194,15 +214,15 @@
         <div class="grid-3">
           <div class="form-group">
             <label for="numeroSalas">Número de salas</label>
-            <input type="number" id="numeroSalas" name="numeroSalas" min="0" required>
+            <input type="number" id="numeroSalas" name="numeroSalas" min="0">
           </div>
           <div class="form-group">
             <label for="metrosCuadrados">Metros cuadrados</label>
-            <input type="number" id="metrosCuadrados" name="metrosCuadrados" step="0.01" min="0" required>
+            <input type="number" id="metrosCuadrados" name="metrosCuadrados" step="0.01" min="0">
           </div>
           <div class="form-group">
             <label for="numeroPersonas">Número de personas</label>
-            <input type="number" id="numeroPersonas" name="numeroPersonas" min="0" required>
+            <input type="number" id="numeroPersonas" name="numeroPersonas" min="0">
           </div>
         </div>
       </div>
@@ -215,7 +235,7 @@
         <div class="grid-2">
           <div class="form-group">
             <label for="bloqueoTipo">Tipo de hospedaje</label>
-            <select id="bloqueoTipo" name="bloqueoTipo" required>
+            <select id="bloqueoTipo" name="bloqueoTipo">
               <option value="">Seleccione...</option>
               <option value="3 estrellas">3 estrellas</option>
               <option value="4 estrellas" selected>4 estrellas</option>
@@ -225,22 +245,22 @@
           </div>
           <div class="form-group">
             <label for="bloqueoTarifa">Tarifa ideal ($)</label>
-            <input type="number" id="bloqueoTarifa" name="bloqueoTarifa" value="6000.00" step="0.01" required>
+            <input type="number" id="bloqueoTarifa" name="bloqueoTarifa" value="6000.00" step="0.01">
           </div>
         </div>
 
         <div class="grid-3">
           <div class="form-group">
             <label for="bloqueoCantidad">Cantidad de habitaciones</label>
-            <input type="number" id="bloqueoCantidad" name="bloqueoCantidad" value="5" min="1" required>
+            <input type="number" id="bloqueoCantidad" name="bloqueoCantidad" value="5" min="1">
           </div>
           <div class="form-group">
             <label for="bloqueoFechas">Fechas</label>
-            <input type="text" id="bloqueoFechas" name="bloqueoFechas" placeholder="Ej. 15 a 20 de Octubre" required>
+            <input type="text" id="bloqueoFechas" name="bloqueoFechas" placeholder="Ej. 15 a 20 de Octubre">
           </div>
           <div class="form-group">
             <label for="bloqueoZona">Zona</label>
-            <input type="text" id="bloqueoZona" name="bloqueoZona" value="Monterrey Centro" required>
+            <input type="text" id="bloqueoZona" name="bloqueoZona" value="Monterrey Centro">
           </div>
         </div>
       </div>
@@ -253,7 +273,7 @@
         <div class="grid-2">
           <div class="form-group">
             <label for="promoTipo">Tipo de hospedaje</label>
-            <select id="promoTipo" name="promoTipo" required>
+            <select id="promoTipo" name="promoTipo">
               <option value="">Seleccione...</option>
               <option value="3 estrellas">3 estrellas</option>
               <option value="4 estrellas" selected>4 estrellas</option>
@@ -263,22 +283,22 @@
           </div>
           <div class="form-group">
             <label for="promoTarifa">Tarifa ideal ($)</label>
-            <input type="number" id="promoTarifa" name="promoTarifa" value="6000.00" step="0.01" required>
+            <input type="number" id="promoTarifa" name="promoTarifa" value="6000.00" step="0.01">
           </div>
         </div>
 
         <div class="grid-3">
           <div class="form-group">
             <label for="promoCantidad">Cantidad de habitaciones</label>
-            <input type="number" id="promoCantidad" name="promoCantidad" value="5" min="1" required>
+            <input type="number" id="promoCantidad" name="promoCantidad" value="5" min="1">
           </div>
           <div class="form-group">
             <label for="promoFechas">Fechas</label>
-            <input type="text" id="promoFechas" name="promoFechas" placeholder="Ej. 15 a 20 de Octubre" required>
+            <input type="text" id="promoFechas" name="promoFechas" placeholder="Ej. 15 a 20 de Octubre">
           </div>
           <div class="form-group">
             <label for="promoZona">Zona</label>
-            <input type="text" id="promoZona" name="promoZona" value="Monterrey Centro" required>
+            <input type="text" id="promoZona" name="promoZona" value="Monterrey Centro">
           </div>
         </div>
       </div>
@@ -308,42 +328,83 @@
         </div>
       </div>
 
-      <button type="submit" id="submitBtn" class="btn-submit">Enviar solicitud</button>
+      <button type="button" id="submitBtn" class="btn-submit" onclick="enviarDatos()">Enviar solicitud</button>
     </form>
 
     <div id="statusMessage"></div>
   </div>
 
   <script>
-    function handleFormSubmit(formObject) {
+    function enviarDatos() {
+      const form = document.getElementById('recintoForm');
       const btn = document.getElementById('submitBtn');
       const statusDiv = document.getElementById('statusMessage');
-      
-      btn.disabled = true;
-      btn.innerText = "Enviando...";
-      statusDiv.style.color = "#333";
-      statusDiv.innerText = "Enviando información...";
 
+      // Validar campos obligatorios básicos
+      const nombreEvento = document.getElementById('nombreEvento').value.trim();
+      const nombreOrganizador = document.getElementById('nombreOrganizador').value.trim();
+      const fechaInicio = document.getElementById('fechaInicio').value;
+      const fechaTermino = document.getElementById('fechaTermino').value;
+
+      if (!nombreEvento || !nombreOrganizador || !fechaInicio || !fechaTermino) {
+        statusDiv.className = 'status-error';
+        statusDiv.style.display = 'block';
+        statusDiv.innerText = 'Por favor complete los campos obligatorios del evento y las fechas.';
+        return;
+      }
+
+      // Preparar objeto de datos
+      const data = {
+        nombreEvento: nombreEvento,
+        nombreOrganizador: nombreOrganizador,
+        fechaInicio: fechaInicio,
+        fechaTermino: fechaTermino,
+        numeroSalas: document.getElementById('numeroSalas').value,
+        metrosCuadrados: document.getElementById('metrosCuadrados').value,
+        numeroPersonas: document.getElementById('numeroPersonas').value,
+        bloqueoTipo: document.getElementById('bloqueoTipo').value,
+        bloqueoTarifa: document.getElementById('bloqueoTarifa').value,
+        bloqueoCantidad: document.getElementById('bloqueoCantidad').value,
+        bloqueoFechas: document.getElementById('bloqueoFechas').value,
+        bloqueoZona: document.getElementById('bloqueoZona').value,
+        promoTipo: document.getElementById('promoTipo').value,
+        promoTarifa: document.getElementById('promoTarifa').value,
+        promoCantidad: document.getElementById('promoCantidad').value,
+        promoFechas: document.getElementById('promoFechas').value,
+        promoZona: document.getElementById('promoZona').value,
+        beneficioElegido: document.getElementById('beneficioElegido').value,
+        necesidadesEspeciales: document.getElementById('necesidadesEspeciales').value
+      };
+
+      // Cambiar estado visual del botón
+      btn.disabled = true;
+      btn.innerText = "Enviando solicitud...";
+      statusDiv.className = 'status-info';
+      statusDiv.style.display = 'block';
+      statusDiv.innerText = "Procesando envío...";
+
+      // Llamada al servidor Apps Script
       google.script.run
         .withSuccessHandler(function(response) {
           btn.disabled = false;
           btn.innerText = "Enviar solicitud";
-          if(response.status === 'SUCCESS') {
-            statusDiv.style.color = "green";
+          
+          if (response && response.status === 'SUCCESS') {
+            statusDiv.className = 'status-success';
             statusDiv.innerText = response.message;
-            document.getElementById('recintoForm').reset();
+            form.reset();
           } else {
-            statusDiv.style.color = "red";
-            statusDiv.innerText = "Error: " + response.message;
+            statusDiv.className = 'status-error';
+            statusDiv.innerText = "Error: " + (response ? response.message : "Respuesta no válida del servidor.");
           }
         })
         .withFailureHandler(function(error) {
           btn.disabled = false;
           btn.innerText = "Enviar solicitud";
-          statusDiv.style.color = "red";
-          statusDiv.innerText = "Error al conectar con el servidor.";
+          statusDiv.className = 'status-error';
+          statusDiv.innerText = "Error al enviar: " + error.message;
         })
-        .enviarFormulario(formObject);
+        .enviarFormulario(data);
     }
   </script>
 </body>
