@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario Recinto y Gestión de Hospedaje - OCV Monterrey</title>
   <style>
     :root {
       --primary-color: #f37021;
@@ -178,6 +180,7 @@
 <body>
 
   <div class="container">
+    <!-- Logotipo de la OCV Monterrey -->
     <div class="header-logo">
       <img src="https://lh3.googleusercontent.com/d/1Z0YYc00kPgLv_CoJ0ur6EpieCc2kGR83" alt="Monterrey OCV Logo">
       <h2>Formulario de Gestión de Hospedaje</h2>
@@ -335,12 +338,14 @@
   </div>
 
   <script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwI6D0wKFuVlGih5Zl4o0Np6bdw3sO1LjA-PVHHGfsTl1r_U5BZAZn2nPVMVtS8IDrg/exec";
+
     function enviarDatos() {
       const form = document.getElementById('recintoForm');
       const btn = document.getElementById('submitBtn');
       const statusDiv = document.getElementById('statusMessage');
 
-      // Validar campos obligatorios básicos
+      // Validar campos obligatorios
       const nombreEvento = document.getElementById('nombreEvento').value.trim();
       const nombreOrganizador = document.getElementById('nombreOrganizador').value.trim();
       const fechaInicio = document.getElementById('fechaInicio').value;
@@ -353,7 +358,7 @@
         return;
       }
 
-      // Preparar objeto de datos
+      // Estructurar objeto con los valores
       const data = {
         nombreEvento: nombreEvento,
         nombreOrganizador: nombreOrganizador,
@@ -383,28 +388,26 @@
       statusDiv.style.display = 'block';
       statusDiv.innerText = "Procesando envío...";
 
-      // Llamada al servidor Apps Script
-      google.script.run
-        .withSuccessHandler(function(response) {
-          btn.disabled = false;
-          btn.innerText = "Enviar solicitud";
-          
-          if (response && response.status === 'SUCCESS') {
-            statusDiv.className = 'status-success';
-            statusDiv.innerText = response.message;
-            form.reset();
-          } else {
-            statusDiv.className = 'status-error';
-            statusDiv.innerText = "Error: " + (response ? response.message : "Respuesta no válida del servidor.");
-          }
-        })
-        .withFailureHandler(function(error) {
-          btn.disabled = false;
-          btn.innerText = "Enviar solicitud";
-          statusDiv.className = 'status-error';
-          statusDiv.innerText = "Error al enviar: " + error.message;
-        })
-        .enviarFormulario(data);
+      // Enviar datos mediante fetch (no-cors)
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(() => {
+        btn.disabled = false;
+        btn.innerText = "Enviar solicitud";
+        statusDiv.className = 'status-success';
+        statusDiv.innerText = "¡Formulario enviado con éxito a gabriela.santillan@ocvmty.com.mx!";
+        form.reset();
+      })
+      .catch(error => {
+        btn.disabled = false;
+        btn.innerText = "Enviar solicitud";
+        statusDiv.className = 'status-error';
+        statusDiv.innerText = "Error al enviar la solicitud: " + error.message;
+      });
     }
   </script>
 </body>
