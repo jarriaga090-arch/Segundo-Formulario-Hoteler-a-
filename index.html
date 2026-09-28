@@ -125,6 +125,11 @@
       border-color: var(--primary-color);
     }
 
+    .dynamic-field {
+      display: none;
+      margin-top: 10px;
+    }
+
     .btn-submit {
       width: 100%;
       background-color: var(--primary-color);
@@ -230,10 +235,10 @@
         </div>
       </div>
 
-      <!-- Sección 2: Bloqueo Cerrado -->
+      <!-- Sección 2: Hospedaje por Bloqueo Cerrado -->
       <div class="form-card">
-        <h3 class="card-title">Hospedaje por Bloqueo Cerrado</h3>
-        <p class="card-subtitle">Compartanos la información de las habitaciones que serán reservadas directamente por el organizador</p>
+        <h3 class="card-title">HOSPEDAJE POR BLOQUEO CERRADO</h3>
+        <p class="card-subtitle">(Compartenos la info de las habitaciones que sean reservadas directamente por el organizador)</p>
 
         <div class="grid-2">
           <div class="form-group">
@@ -252,26 +257,42 @@
           </div>
         </div>
 
-        <div class="grid-3">
+        <div class="form-group">
+          <label for="bloqueoCantidad">Cantidad de habitaciones</label>
+          <input type="number" id="bloqueoCantidad" name="bloqueoCantidad" value="5" min="1">
+        </div>
+
+        <!-- Calendarios dinámicos para inicio y fin de hospedaje -->
+        <div class="grid-2">
           <div class="form-group">
-            <label for="bloqueoCantidad">Cantidad de habitaciones</label>
-            <input type="number" id="bloqueoCantidad" name="bloqueoCantidad" value="5" min="1">
+            <label for="bloqueoInicio">Inicio de hospedaje *</label>
+            <input type="date" id="bloqueoInicio" name="bloqueoInicio">
           </div>
           <div class="form-group">
-            <label for="bloqueoFechas">Fechas</label>
-            <input type="text" id="bloqueoFechas" name="bloqueoFechas" placeholder="Ej. 15 a 20 de Octubre">
+            <label for="bloqueoFin">Fin de hospedaje *</label>
+            <input type="date" id="bloqueoFin" name="bloqueoFin">
           </div>
-          <div class="form-group">
-            <label for="bloqueoZona">Zona</label>
-            <input type="text" id="bloqueoZona" name="bloqueoZona" value="Monterrey Centro">
+        </div>
+
+        <!-- Zona con menú desplegable y campo dinámico "Otro" -->
+        <div class="form-group">
+          <label for="bloqueoZonaSelect">Zona</label>
+          <select id="bloqueoZonaSelect" onchange="toggleZonaOtro('bloqueoZonaSelect', 'bloqueoZonaOtroContainer')">
+            <option value="Monterrey Centro" selected>Monterrey Centro</option>
+            <option value="San Pedro">San Pedro</option>
+            <option value="Santiago">Santiago</option>
+            <option value="Otro">Otro</option>
+          </select>
+          <div id="bloqueoZonaOtroContainer" class="dynamic-field">
+            <input type="text" id="bloqueoZonaOtro" placeholder="Especifique la zona">
           </div>
         </div>
       </div>
 
-      <!-- Sección 3: Código Promocional -->
+      <!-- Sección 3: Hospedaje para Participantes con Código Promocional -->
       <div class="form-card">
-        <h3 class="card-title">Hospedaje para Participantes - Con Código Promocional</h3>
-        <p class="card-subtitle">Estas habitaciones serían ofrecidas al público en general de su evento</p>
+        <h3 class="card-title">HOSPEDAJE PARA PARTICIPANTES - CON CÓDIGO PROMOCIONAL</h3>
+        <p class="card-subtitle">(Estas habitaciones serían ofrecidas al público en general de su evento)</p>
 
         <div class="grid-2">
           <div class="form-group">
@@ -290,18 +311,34 @@
           </div>
         </div>
 
-        <div class="grid-3">
+        <div class="form-group">
+          <label for="promoCantidad">Cantidad de habitaciones</label>
+          <input type="number" id="promoCantidad" name="promoCantidad" value="5" min="1">
+        </div>
+
+        <!-- Calendarios dinámicos para inicio y fin de hospedaje -->
+        <div class="grid-2">
           <div class="form-group">
-            <label for="promoCantidad">Cantidad de habitaciones</label>
-            <input type="number" id="promoCantidad" name="promoCantidad" value="5" min="1">
+            <label for="promoInicio">Inicio de hospedaje *</label>
+            <input type="date" id="promoInicio" name="promoInicio">
           </div>
           <div class="form-group">
-            <label for="promoFechas">Fechas</label>
-            <input type="text" id="promoFechas" name="promoFechas" placeholder="Ej. 15 a 20 de Octubre">
+            <label for="promoFin">Fin de hospedaje *</label>
+            <input type="date" id="promoFin" name="promoFin">
           </div>
-          <div class="form-group">
-            <label for="promoZona">Zona</label>
-            <input type="text" id="promoZona" name="promoZona" value="Monterrey Centro">
+        </div>
+
+        <!-- Zona con menú desplegable y campo dinámico "Otro" -->
+        <div class="form-group">
+          <label for="promoZonaSelect">Zona</label>
+          <select id="promoZonaSelect" onchange="toggleZonaOtro('promoZonaSelect', 'promoZonaOtroContainer')">
+            <option value="Monterrey Centro" selected>Monterrey Centro</option>
+            <option value="San Pedro">San Pedro</option>
+            <option value="Santiago">Santiago</option>
+            <option value="Otro">Otro</option>
+          </select>
+          <div id="promoZonaOtroContainer" class="dynamic-field">
+            <input type="text" id="promoZonaOtro" placeholder="Especifique la zona">
           </div>
         </div>
       </div>
@@ -311,7 +348,7 @@
         <h3 class="card-title">Beneficios Eventos a Hoteles</h3>
         <div class="form-group">
           <label for="beneficioElegido">Seleccione el beneficio:</label>
-          <select id="beneficioElegido" name="beneficioElegido">
+          <select id="beneficioElegido" name="beneficioElegido" onchange="toggleBeneficioOtro()">
             <option value="">Seleccione una opción...</option>
             <option value="Tarifa preferencial">Tarifa preferencial</option>
             <option value="Habitaciones en cortesía">Habitaciones en cortesía</option>
@@ -319,6 +356,10 @@
             <option value="Descuentos en alimentos y bebidas">Descuentos en alimentos y bebidas</option>
             <option value="Otro / Ninguno">Otro / Ninguno</option>
           </select>
+          <!-- Campo dinámico para escribir beneficio si selecciona "Otro / Ninguno" -->
+          <div id="beneficioOtroContainer" class="dynamic-field">
+            <input type="text" id="beneficioOtro" placeholder="Escriba el beneficio o detalles adicionales">
+          </div>
         </div>
       </div>
 
@@ -340,6 +381,28 @@
   <script>
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwI6D0wKFuVlGih5Zl4o0Np6bdw3sO1LjA-PVHHGfsTl1r_U5BZAZn2nPVMVtS8IDrg/exec";
 
+    // Mostrar/ocultar campo de texto para Zona cuando elijan "Otro"
+    function toggleZonaOtro(selectId, containerId) {
+      const selectVal = document.getElementById(selectId).value;
+      const container = document.getElementById(containerId);
+      if (selectVal === 'Otro') {
+        container.style.display = 'block';
+      } else {
+        container.style.display = 'none';
+      }
+    }
+
+    // Mostrar/ocultar campo de texto para Beneficios cuando elijan "Otro / Ninguno"
+    function toggleBeneficioOtro() {
+      const selectVal = document.getElementById('beneficioElegido').value;
+      const container = document.getElementById('beneficioOtroContainer');
+      if (selectVal === 'Otro / Ninguno') {
+        container.style.display = 'block';
+      } else {
+        container.style.display = 'none';
+      }
+    }
+
     function enviarDatos() {
       const form = document.getElementById('recintoForm');
       const btn = document.getElementById('submitBtn');
@@ -358,7 +421,23 @@
         return;
       }
 
-      // Estructurar objeto con los valores
+      // Procesar valores de Zona (si es 'Otro', toma lo que el usuario escribió)
+      const bloqueoZonaVal = document.getElementById('bloqueoZonaSelect').value === 'Otro' 
+        ? document.getElementById('bloqueoZonaOtro').value.trim() 
+        : document.getElementById('bloqueoZonaSelect').value;
+
+      const promoZonaVal = document.getElementById('promoZonaSelect').value === 'Otro' 
+        ? document.getElementById('promoZonaOtro').value.trim() 
+        : document.getElementById('promoZonaSelect').value;
+
+      // Procesar valores de Beneficios (si es 'Otro / Ninguno', toma lo escrito)
+      let beneficioVal = document.getElementById('beneficioElegido').value;
+      if (beneficioVal === 'Otro / Ninguno') {
+        const otroDetalle = document.getElementById('beneficioOtro').value.trim();
+        beneficioVal = otroDetalle ? "Otro / Ninguno: " + otroDetalle : "Otro / Ninguno";
+      }
+
+      // Crear objeto con los datos completos
       const data = {
         nombreEvento: nombreEvento,
         nombreOrganizador: nombreOrganizador,
@@ -367,28 +446,31 @@
         numeroSalas: document.getElementById('numeroSalas').value,
         metrosCuadrados: document.getElementById('metrosCuadrados').value,
         numeroPersonas: document.getElementById('numeroPersonas').value,
+        
         bloqueoTipo: document.getElementById('bloqueoTipo').value,
         bloqueoTarifa: document.getElementById('bloqueoTarifa').value,
         bloqueoCantidad: document.getElementById('bloqueoCantidad').value,
-        bloqueoFechas: document.getElementById('bloqueoFechas').value,
-        bloqueoZona: document.getElementById('bloqueoZona').value,
+        bloqueoInicio: document.getElementById('bloqueoInicio').value,
+        bloqueoFin: document.getElementById('bloqueoFin').value,
+        bloqueoZona: bloqueoZonaVal,
+
         promoTipo: document.getElementById('promoTipo').value,
         promoTarifa: document.getElementById('promoTarifa').value,
         promoCantidad: document.getElementById('promoCantidad').value,
-        promoFechas: document.getElementById('promoFechas').value,
-        promoZona: document.getElementById('promoZona').value,
-        beneficioElegido: document.getElementById('beneficioElegido').value,
+        promoInicio: document.getElementById('promoInicio').value,
+        promoFin: document.getElementById('promoFin').value,
+        promoZona: promoZonaVal,
+
+        beneficioElegido: beneficioVal,
         necesidadesEspeciales: document.getElementById('necesidadesEspeciales').value
       };
 
-      // Cambiar estado visual del botón
       btn.disabled = true;
       btn.innerText = "Enviando solicitud...";
       statusDiv.className = 'status-info';
       statusDiv.style.display = 'block';
       statusDiv.innerText = "Procesando envío...";
 
-      // Enviar datos mediante fetch (no-cors)
       fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -401,6 +483,10 @@
         statusDiv.className = 'status-success';
         statusDiv.innerText = "¡Formulario enviado con éxito a gabriela.santillan@ocvmty.com.mx!";
         form.reset();
+        // Ocultar campos dinámicos
+        document.getElementById('bloqueoZonaOtroContainer').style.display = 'none';
+        document.getElementById('promoZonaOtroContainer').style.display = 'none';
+        document.getElementById('beneficioOtroContainer').style.display = 'none';
       })
       .catch(error => {
         btn.disabled = false;
